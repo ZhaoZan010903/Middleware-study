@@ -13,10 +13,10 @@
     <!-- 优质的 spring/boot/data/security/cloud 框架中文文档尽在 => https://springdoc.cn -->
 
     <groupId>cn.note</groupId>
-    <artifactId>Redis-Demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>RedisDemo</name>
-    <description>RedisDemo</description>
+    <artifactId>Redis-Study</artifactId>
+    <version>1.0.0-STUDY</version>
+    <name>RedisStudy</name>
+    <description>RedisStudy</description>
     <properties>
         <java.version>17</java.version>
     </properties>

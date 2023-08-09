@@ -10,10 +10,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
+      # ip
       host: 127.0.0.1
+      # ???
       port: 6379
       username: ~
       password: ~
+      # ?????
       database: 1
 
 
