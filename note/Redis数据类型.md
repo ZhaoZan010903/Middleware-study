@@ -420,4 +420,90 @@ ___
 Zset与set类似,区别是set是无序的,sorted set是有序的并且不重复的集合列表,可以通过用户额外提供一个优先级的参数来为成员排序,并且是插入有序的,即自动排序
 ```redis
 ZADD key score member [[score member]...]
+ZREM key member [member ...] -- 从有序集合key中删除元素
+ZSCORE key member --返回有序集合key中元素member的分值
+ZINCRBY key increment member -- 有序集合key中元素member的分值加上increment
+ZCARD key -- 返回有序集合key中元素个数
+ZRANGE key start stop [WITHSCORES] -- 返回有序集合key中元素个数
+ZREVRANGE key start stop [WITHSCORES] -- 倒序获取有序集合key从start下标到stop下标的元素
+ZUNIONSTORE destkey numkeys key [key...] -- 并集计算
+ZINTERSTORE destkey numkeys key [key...] -- 交集计算
+```
+
+```java
+@SpringBootTest
+public class RedisZset {
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 添加
+    @Test
+    public void ZsetAdd() {
+        BoundZSetOperations zset = redisTemplate.boundZSetOps("zset");
+        zset.add("张三", 100);
+
+        Set<ZSetOperations.TypedTuple> set = new HashSet<>();
+        set.add(ZSetOperations.TypedTuple.of("李四", Double.valueOf("80")));
+        set.add(ZSetOperations.TypedTuple.of("王五", Double.valueOf("70")));
+        set.add(ZSetOperations.TypedTuple.of("赵六", Double.valueOf("60")));
+        zset.add(set);
+    }
+
+    // 获取
+    @Test
+    public void ZsetGet() {
+        BoundZSetOperations zset = redisTemplate.boundZSetOps("zset");
+        // 获取分数
+        System.out.println(zset.score("张三", "李四"));
+        // 个数
+        System.out.println(zset.size());
+        // 原子添加并返回
+        System.out.println(zset.incrementScore("李四", 1));
+    }
+
+    // 范围查询
+    @Test
+    public void testGetRange() {
+        BoundZSetOperations zset = redisTemplate.boundZSetOps("zset");
+        // 范围升序查询
+
+        //升序顺序范围
+        System.out.println(zset.range(0, 2));
+        // 分数查询
+        System.out.println(zset.rangeByScore(60, 90));
+        // 带分数
+        System.out.println(zset.rangeWithScores(1, 2));
+        System.out.println(zset.rangeByScoreWithScores(60, 90));
+
+
+        // 范围降序查询
+
+        //升序降序范围
+        System.out.println(zset.reverseRange(0, 2));
+        // 分数查询
+        System.out.println(zset.reverseRangeByScore(60, 90));
+        // 带分数
+        System.out.println(zset.reverseRangeWithScores(1, 2));
+        System.out.println(zset.reverseRangeByScoreWithScores(60, 90));
+    }
+
+
+    //删除
+    @Test
+    public void ZsetDel() {
+        BoundZSetOperations zset = redisTemplate.boundZSetOps("zset");
+        System.out.println(zset.remove("张三"));
+        //按照升序范围移除
+        zset.removeRange(0, 1);
+        zset.removeRangeByScore(100, 90); //按照分数
+    }
+
+    @Test
+    public void test() {
+        BoundZSetOperations zset = redisTemplate.boundZSetOps("news20000101");
+        //
+        zset.incrementScore("守护香港:1", 1);
+        System.out.println(zset.reverseRangeWithScores(0, 9));
+    }
+}
 ```
