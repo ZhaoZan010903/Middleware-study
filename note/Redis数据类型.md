@@ -321,3 +321,103 @@ public class RedisList {
     }
 }
 ```
+
+___
+
+#### 4.Set
+
+set是S听类型的无序集合.不允许重复 
+```redis
+SADD key member [member ...] --往集合key中存入元素,元素存在则忽略,若key不存在则新建
+SREM key member [member ...] --从集合key中删除元素
+SCARD key --获取集合key中所有元素
+SISMEMBER key member -- 判断member元素是否存在于集合key中
+SRANDMEMBER key [count] -- 从集合key中选出count个随机元素,元素不从key中删除
+SPOP key [count] -- 从集合key中选出count个元素,元素从key中删除
+
+Set运算操作
+SINTER  key [key] --交集运算
+SINTERSTORE destination key [key ...]  --将交集结果存入新集合 destination中
+SUNION key [key ...] --并集运算
+SDIFF key [key ...] --差集运算
+SDIFFSTORE destination key [key...] --差集结果存入新集合destination中
+```
+
+**_使用场景:_** 共同关注的人,可能认识的人;
+
+```java
+@SpringBootTest
+public class RedisSet {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    //添加
+    @Test
+    public void SetTest() {
+        BoundSetOperations set = redisTemplate.boundSetOps("set1");
+        set.add(1, 2, 3, 4, 5, 6, 1, 312, 12, 7, 8, 9);
+    }
+    
+    // 获取,删除
+    @Test
+    public void SetTest01() {
+        BoundSetOperations set = redisTemplate.boundSetOps("set");
+        //获取整个set set.members()
+        System.out.println(set.members());
+        //获取个数 set.size()
+        System.out.println(set.size());
+        //根据摸个元素判断是否在set中  set.isMember(1)
+        System.out.println(set.isMember(1));
+        //根据count获取随机元素
+        //                                    ↓ 获取个数
+        System.out.println(set.randomMembers(2));
+        System.out.println(set.randomMembers(2));
+        System.out.println(set.randomMember());
+        //带删除
+        System.out.println(set.pop()); //带
+
+        SetOperations setOperations = redisTemplate.opsForSet();
+        System.out.println(setOperations.pop("set", 2));
+    }
+
+    // Set运算
+
+    //交集
+    @Test
+    public void SetSum() {
+        BoundSetOperations set = redisTemplate.boundSetOps("set");
+        // 取交集
+        System.out.println(set.intersect("set1"));
+        //取出交集并存入新的set中
+        set.intersectAndStore("set1", "set3");
+        BoundSetOperations set3 = redisTemplate.boundSetOps("set3");
+        System.out.println(set3.members());
+    }
+
+
+    //并集
+    @Test
+    public void SetSum02() {
+        BoundSetOperations set = redisTemplate.boundSetOps("set");
+
+        System.out.println(set.union("set1"));
+    }
+
+
+    //差集
+    @Test
+    public void SetSum03() {
+        BoundSetOperations set = redisTemplate.boundSetOps("set1");
+        System.out.println(set.diff("set"));
+    }
+}
+```
+
+___
+
+#### 5.Zset
+Zset与set类似,区别是set是无序的,sorted set是有序的并且不重复的集合列表,可以通过用户额外提供一个优先级的参数来为成员排序,并且是插入有序的,即自动排序
+```redis
+ZADD key score member [[score member]...]
+```
