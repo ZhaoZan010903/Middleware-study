@@ -1,28 +1,25 @@
 package cn.note.redis;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.Serializable;
 
+@EnableTransactionManagement
 @Configuration
+@ComponentScan("cn.note.redis")
+@EnableRedisRepositories("cn.note.redis.repository")
 public class RedisConfig {
 
-    //1.redis的连接工厂
-
-
-//    @Bean
-//    public RedisConnectionFactory redisConnectionFactory(){
-//        return new JedisConnectionFactory();
-//    }
-
     @Bean
-    public RedisTemplate redisTemplate(RedisConnectionFactory factory){
+    public RedisTemplate redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(factory);
@@ -40,7 +37,7 @@ public class RedisConfig {
 
     //Redis声明式事务
     @Bean
-    public RedisTemplate tranRedisTemplate(RedisConnectionFactory factory){
+    public RedisTemplate tranRedisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(factory);
