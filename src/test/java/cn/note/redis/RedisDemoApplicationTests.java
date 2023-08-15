@@ -3,11 +3,12 @@ package cn.note.redis;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @SpringBootTest
 class RedisDemoApplicationTests {
@@ -17,10 +18,24 @@ class RedisDemoApplicationTests {
 
     @Test
     void contextLoads() {
-        ValueOperations operations = redisTemplate.opsForValue();
-        operations.set("key:1","测试");
-        Object o = operations.get("key:1");
-        System.out.println(o);
+        ValueOperations<String, Serializable> operations = redisTemplate.opsForValue();
+        operations.set("name","测试");
+
+
+//        redisTemplate.opsForHash().put("key:1","demo",list);
+/*
+        redisTemplate.opsForValue();
+        redisTemplate.opsForList();
+        redisTemplate.opsForSet();
+        redisTemplate.opsForZSet();
+
+        redisTemplate.opsForCluster();
+        redisTemplate.opsForGeo();
+        redisTemplate.opsForHyperLogLog();
+        redisTemplate.opsForStream();
+         */
+
+
     }
 
 }

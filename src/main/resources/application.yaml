@@ -20,6 +20,7 @@ spring:
       database: 1
 
 
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: cn.note.redis
