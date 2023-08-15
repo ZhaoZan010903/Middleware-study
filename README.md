@@ -10,3 +10,7 @@
    * set
    * Zset
 3. Redis的事物 
+4. Redis Repository
+5. Redis的击穿雪崩穿透 (待完善)
+
+* 准备开始布隆过滤器.
