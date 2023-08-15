@@ -6,6 +6,7 @@ Redis支持5种数据类型: string(字符串),hash(哈希),list(列表),set(集
 #### 1.String
 
 string是Redis最基本的类型,一个key对应一个value.value 其实不仅是String,,也可以是数字,**_String类型的值最大能存储512MB_**
+
 ```redis
 SET key value -- 存入字符串键值对
 MSET key value -- 评论存储字符串键值对 (不支持)
