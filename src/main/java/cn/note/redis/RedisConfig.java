@@ -21,12 +21,13 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Serializable> redisTemplate(RedisConnectionFactory factory){
         RedisTemplate<String, Serializable> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(factory);
-        //指定 kv 的序列化方式,序列化为JSON格式;
-        redisTemplate.setDefaultSerializer(new StringRedisSerializer());
-//        Jackson2JsonRedisSerializer jsonRedisSerializer = new Jackson2JsonRedisSerializer(Serializable.class);
-//        redisTemplate.setDefaultSerializer(jsonRedisSerializer);
 
+        redisTemplate.setConnectionFactory(factory);
+        // 只能传入String类型的值 序列化的原因 只能传入String类型的值(存入Redis)
+//        redisTemplate.setDefaultSerializer(new StringRedisSerializer());
+        // 改成JSON的序列化器
+        //
+        redisTemplate.setDefaultSerializer(new Jackson2JsonRedisSerializer(Object.class));
         return redisTemplate;
     }
 }
