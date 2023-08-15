@@ -86,3 +86,188 @@ public class RedisString {
 
 ```
 
+___
+
+#### 2.Hash
+hash是一个键值(key => value)对集合.Redis hash是一个String类型的field和value的映射表,hash特别适合用于存储对象.(可以把value当做map)
+
+```redis
+HSET key field value -- 存储一个哈希表key的键值
+HSETNX key field value -- 春促一个不存在的哈希表key的键值
+HMSET key field value[field value ....] -- 在一个哈希表key中存储多个键值对(不支持)
+HGET key field -- 获取哈希表key对应的field键值
+HMGET key field [field ...] -- 批量获取哈希表key中多个field键值
+HDEL key field [field ...] -- 删除哈希表key中的field键值
+HLEN key -- 会返回哈希表key中field的数量
+HGETALL key --返回哈希表key中所有键的键值
+HINCRBY key field increement --为哈希表key中field键的值加上原子增量increment
+```
+**_使用场景:_** 存储部分变更数据,如用户登录信息、做购物车列表等。相对于String来说,对于对象存储,不用来回进行序列化,减少内存和CPU的消耗
+
+
+
+```java
+@SpringBootTest
+public class RedisHash {
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    // 存入
+    @Test
+    public void HashTest() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        car.put("p_id", 1);
+        car.put("p_total", 10);
+
+    }
+
+    // 获取map 所有
+    @Test
+    public void HashTest01() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        Map entries = car.entries();
+        System.out.println(entries);
+    }
+
+    // 获取map某一项
+    @Test
+    public void HashTest02() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        System.out.println(car.get("p_total"));
+    }
+
+    //存入方法
+    @Test
+    public void HashTest03() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        //存
+        car.put("p_id", 1);
+        // 不存在则存入 成功返回true 不成功返回false
+        Boolean pTotal = car.putIfAbsent("p_total", 10);
+        System.out.println(pTotal);
+    }
+
+
+    // 删除
+    @Test
+    public void HashTest04() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        // 删除整个
+        redisTemplate.delete("car");
+        // 删除一项
+        car.delete("p_id");
+    }
+
+
+    // 获取map的长度
+    @Test
+    public void HashTest05() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        System.out.println(car.size());
+    }
+
+
+    // 对map中的某个value进行增量 (原子)
+    @Test
+    public void HashTest06() {
+        BoundHashOperations car = redisTemplate.boundHashOps("car");
+        car.increment("p_total", 1);
+    }
+
+
+    /**
+     * 电商购物车
+     * 以用户id为key
+     * 商品id为field
+     * 商品数量为value
+     */
+    @Test
+    public void Card(){
+//                                                                  ↓ 那个用户的购物车
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+//                       ↓商品   ↓商品数量
+        car.putIfAbsent("p_"+15,10);
+        car.putIfAbsent("p_"+16,2);
+        car.putIfAbsent("p_"+17,1);
+    }
+
+    /**
+     * 增加购物车商品
+     */
+    @Test
+    public void addCard(){
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+        car.put("p_"+18,1);
+    }
+
+
+    /**
+     * 增加购物车商品数量
+     */
+    @Test
+    public void addCardNum(){
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+        car.increment("p_"+18,1);
+    }
+
+    /**
+     * 获取商品总数
+     */
+    @Test
+    public void SumCard(){
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+        Long size = car.size();
+        System.out.println(size);
+    }
+
+    /**
+     * 删除购物车商品
+     */
+    @Test
+    public void deleteCard(){
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+        Long delete = car.delete("p_" + 18);
+        if(delete<=0){
+            System.out.println("没有商品");
+        }
+    }
+
+    /**
+     * 获取购物车所有商品
+     */
+    @Test
+    public void cardAll(){
+        BoundHashOperations car = redisTemplate.boundHashOps("car" + 99);
+        // 获取所有的商品id
+        Set keys = car.keys();
+        System.out.println(keys);
+        // 获取所有商品的对应值以及数量
+        Map entries = car.entries();
+        System.out.println(entries);
+        // 获取所有的value
+        List values = car.values();
+        System.out.println(values);
+    }
+
+}
+```
+
+___
+
+
+
+
+#### 3.list
+
+list列表是简单的字符串列表,按照插入顺序排序.你可以添加一个元素到列表的头部(左边)或者尾部(右边).(相当于java的LinkedList(链表)和ArrayList)
+
+```redis
+LPUSH key value [value ....]  -- 将一个或多个值value插入到key列表的表头(最左边)
+RPUSH key value [value ....]  -- 将一个或多个值value插入到key列表的表尾(最右边)
+LPOP key -- 移除并返回key列表的头元素 
+RPOP key -- 移除并返回key列表的尾元素
+LRANGE key start stop -- 返回列表key中指定区间内的元素,区间以偏量start和stop指定
+```
+
+**_应用场景:_**Redis list的应用场景非常多,也是Redis最重要的数据结构之一,比如微博的关注列表,粉丝列表、热搜、top榜单等都可以用Redis的List结构来实现
+
