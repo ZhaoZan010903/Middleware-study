@@ -22,7 +22,10 @@ public class Consumer {
         consumer.setMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-                list.forEach(n -> System.out.println("消息消费成功"));
+//                list.forEach(n -> System.out.println("消息消费成功"+list));
+                for (int i=0;i< list.size();i++){
+                    System.out.println(i+"_消息消费成功_"+new String(list.get(i).getBody()));
+                }
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
         });

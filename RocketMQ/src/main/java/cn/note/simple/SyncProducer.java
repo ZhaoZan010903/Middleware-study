@@ -24,7 +24,8 @@ public class SyncProducer {
         for (int i = 0; i < 10; i++) {
             Message message = new Message("Simple", "Tags", (i + "_SyncProducer").getBytes(StandardCharsets.UTF_8));
             SendResult send = producer.send(message);
-            System.out.println(send);
+
+            System.out.println(i + "消息发送成功" + send);
         }
         producer.shutdown();
     }
