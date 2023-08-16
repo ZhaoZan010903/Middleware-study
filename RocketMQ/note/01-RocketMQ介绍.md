@@ -26,7 +26,10 @@ RocketMQ是一款由alibaba开源的分布式消息中间件。它具有低延�
 ```shell
 .\mqnamesrv.cmd
 ```
+![img.png](images/img-1.png)
 再启动mqbroker.cmd
 ```shell
 .\mqbroker.cmd -n localhost:9876
 ```
+![img_1.png](images/img_1.png)
+**启动完成后，看到success即成功**
