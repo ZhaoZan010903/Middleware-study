@@ -33,6 +33,7 @@ public class OrderProducer {
     }
 }
 ```
+
 消费者
 
 ```java
@@ -69,8 +70,35 @@ public class OrderConsumer {
 
 ```
 
-
 ### 2.广播消息
+
 广播消息并没有特定的消息消费者样例,这是因为这涉及到消费者的集群消费模式.
+
 * MessageModel.BROADCASTING: 广播消息.一条消息会发送给所有订阅了对应主题的消费者,不管消费者是不是同一个消费者组.
-* MessageModel.CLUSTERING: 集群消息.每一条消息只会被痛啊一个消费者组中的一个实例消费
+* MessageModel.CLUSTERING: 集群消息.每一条消息只会被同一个消费者组中的一个实例消费
+
+```java
+public class BroadcastConsumer {
+    public static void main(String[] args) throws MQClientException {
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("SimpleConsumer");
+        consumer.setNamesrvAddr("127.0.0.1:9876");
+        // *表示不过滤 所有消息都消费
+        consumer.subscribe("Simple", "*");
+        // 设置广播模式    setMessageModel设置模式
+        //CLUSTERING 集群模式   BROADCASTING 广播模式
+        consumer.setMessageModel(MessageModel.CLUSTERING);
+        //并发消费
+        consumer.setMessageListener(new MessageListenerConcurrently() {
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println(i + "_消息消费成功_" + new String(list.get(i).getBody()));
+                }
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            }
+        });
+        consumer.start();
+        System.out.println("消费者启动成功");
+    }
+}
+```
