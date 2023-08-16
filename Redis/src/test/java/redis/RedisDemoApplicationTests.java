@@ -1,4 +1,4 @@
-package cn.note.redis;
+package redis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

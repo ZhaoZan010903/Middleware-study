@@ -1,4 +1,4 @@
-package cn.note.redis.redisTransaction;
+package redis.redisTransaction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

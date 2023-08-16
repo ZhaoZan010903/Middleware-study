@@ -1,4 +1,4 @@
-package cn.note.redis;
+package redis;
 
 import cn.note.redis.pojo.User;
 import cn.note.redis.repository.UserRepository;

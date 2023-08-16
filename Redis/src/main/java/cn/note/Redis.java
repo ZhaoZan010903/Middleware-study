@@ -1,15 +1,11 @@
-package cn.note.redis;
+package cn.note;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
-
 @SpringBootApplication
-public class RedisDemoApplication {
-
+public class Redis {
     public static void main(String[] args) {
-        SpringApplication.run(RedisDemoApplication.class, args);
+        SpringApplication.run(Redis.class,args);
     }
-
 }
