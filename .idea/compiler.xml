@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Redis" />
+        <module name="RocketMQ" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Redis-Demo" target="17" />
+      <module name="Redis-Study" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Middleware-Study" options="" />
+      <module name="Redis" options="-parameters" />
+      <module name="Redis-Demo" options="-parameters" />
+      <module name="Redis-Study" options="-parameters" />
+      <module name="RocketMQ" options="-parameters" />
+    </option>
+  </component>
+</project>
