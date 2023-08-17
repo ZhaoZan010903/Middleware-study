@@ -25,7 +25,7 @@ Redis 键命令用于管理redis的键
 
 
 
-#### Redis整合
+#### SpringBoot整合Redis
 
 ```xml
 <!--Spring Boot 整合Redis依赖-->

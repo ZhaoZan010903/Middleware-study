@@ -1,5 +1,6 @@
 package redis;
 
+import cn.note.Redis;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,10 +8,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
-@SpringBootTest
+@SpringBootTest(classes = Redis.class)
 class RedisDemoApplicationTests {
 
     @Autowired
