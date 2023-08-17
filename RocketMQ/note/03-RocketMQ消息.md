@@ -157,3 +157,31 @@ public class ScheduleConsumer {
     }
 }
 ```
+
+### 4.批量消息
+批量消息是指将多条消息合并成一个批量消息,一次发送出去.这样的好处是可以减少网络IO,提升吞吐量
+
+批量消息的使用限制:
+* 消息大小不能超过4M,虽然源码注释不能超过1M,但是实际使用不超过4M即可.平衡整体的性能,建议保持1M左右
+* 相同Topic
+* 相同的waitStoreMsgOK
+* 不能是延迟消息、事务消息等
+
+生产者代码:
+```java
+public class BatchProducer {
+    public static void main(String[] args) throws MQClientException, MQBrokerException, RemotingException, InterruptedException {
+        DefaultMQProducer producer = new DefaultMQProducer("SyncProducer");
+        producer.setNamesrvAddr("127.0.0.1:9876");
+        producer.start();
+        List<Message> messages = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Message message = new Message("Simple", "Tags", (i + "BatchProducer").getBytes(StandardCharsets.UTF_8));
+            messages.add(message);
+        }
+        SendResult send = producer.send(messages);
+        System.out.println("消息发送成功" + send);
+        producer.shutdown();
+    }
+}
+```
