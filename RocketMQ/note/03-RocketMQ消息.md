@@ -220,6 +220,7 @@ public class FilterTagProducer {
     }
 }
 ```
+
 消费者:
 
 ```java
@@ -246,7 +247,7 @@ public class FilterTagConsumer {
 }
 ```
 
-#### 5.2 使用Sql方式 
+#### 5.2 使用Sql方式
 
 ```java
 public class FilterSqlProducer {
@@ -257,7 +258,7 @@ public class FilterSqlProducer {
         String[] tags = new String[]{"TagA", "TagB", "TagC"};
         for (int i = 0; i < 10; i++) {
             Message message = new Message("Filter", tags[i % tags.length], (tags[i % tags.length] + "_SyncProducer").getBytes(StandardCharsets.UTF_8));
-            message.putUserProperty("baili",String.valueOf(i));
+            message.putUserProperty("baili", String.valueOf(i));
             SendResult send = producer.send(message);
             System.out.println(i + "消息发送成功" + send);
         }
@@ -266,17 +267,100 @@ public class FilterSqlProducer {
 }
 ```
 
-
-
 ### 6.事物消息
+
 这个事务消息是RocketMQ提供的一个非常有特色的功能,需要着重理解.
 [事务消息](https://rocketmq.apache.org/zh/docs/featureBehavior/04transactionmessage)
 
-
 #### 6.1 什么是事物消息
+
 事务消息是在分布式系统中保证最终的一致性的两阶段提交的消息实现.他可以保证本地事务执行与消息发送两个操作的原子性,也就是这两个操作一起成功或者一起失败.
 
 #### 6.2 事务消息实现
 
+生产者代码:
 
+```java
+public class TransactionProducer {
+    public static void main(String[] args) throws MQClientException, InterruptedException {
+        TransactionMQProducer producer = new TransactionMQProducer("transactionProducer");
+        producer.setNamesrvAddr("127.0.0.1:9876");
+        // 异步提交提升事物状态,提升性能
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2, 5, 100,
+                TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(200), new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread thread = new Thread(r);
+                thread.setName("ExecutorService-");
+                return thread;
+            }
+        });
+        // 使用异步提交
+        producer.setExecutorService(threadPoolExecutor);
+        // 本地事务监听器
+        producer.setTransactionListener(new TransactionListenerImpl());
+        producer.start();
+        String[] tags = new String[]{"TagA", "TagB", "TagC", "TagD", "TagE"};
+        for (int i = 0; i < 10; i++) {
+            Message message = new Message("Transaction",
+                    tags[i % tags.length],
+                    (tags[i % tags.length] + "_TransactionProducer").getBytes(StandardCharsets.UTF_8));
+            TransactionSendResult transactionSendResult = producer.sendMessageInTransaction(message, null);
+            System.out.println("消息发送成功_" + transactionSendResult);
+            Thread.sleep(10);
+        }
+        Thread.sleep(100000);
+        producer.shutdown();
+    }
+}
+```
+
+##### 6.2.1 TransactionListener
+
+*
+executeLocalTransaction：该方法用于执行本地事务，即在发送半消息后，执行业务逻辑，并返回本地事务的状态。该方法有两个参数，分别是message和o。message是发送的半消息，包含了消息的主题、标签、键值等信息。o是发送消息时传入的参数，可以用于传递一些额外的信息。该方法的返回值是LocalTransactionState类型，表示本地事务的状态，可以是以下三种之一：
+    * COMMIT_MESSAGE：表示本地事务执行成功，提交消息，让消费者可以消费该消息。
+    * ROLLBACK_MESSAGE：表示本地事务执行失败，回滚消息，让消费者不会消费该消息。
+    * UNKNOW：表示本地事务的状态未知，需要由Broker发起回查来确定状态。
+*
+checkLocalTransaction：该方法用于回查本地事务的状态，即在Broker发现某个半消息长时间处于未知状态时，主动向生产者询问该消息对应的本地事务的状态，并根据回查结果更新半消息的状态。该方法有一个参数，就是messageExt，它是Message的子类，包含了半消息的所有信息，以及一些额外的属性。该方法的返回值也是LocalTransactionState类型，同样表示本地事务的状态，可以是以下三种之一：
+* COMMIT_MESSAGE：表示本地事务执行成功，提交消息，让消费者可以消费该消息。
+* ROLLBACK_MESSAGE：表示本地事务执行失败，回滚消息，让消费者不会消费该消息。
+* UNKNOW：表示本地事务的状态仍然未知，需要继续回查。
+
+实例代码:
+
+```java
+public class TransactionListenerImpl implements TransactionListener {
+
+    //执行本地事务
+    @Override
+    public LocalTransactionState executeLocalTransaction(Message message, Object o) {
+        String tags = message.getTags();
+        if (StringUtils.contains("TagA", tags)) {
+            return LocalTransactionState.COMMIT_MESSAGE;
+        }
+        if (StringUtils.contains("TagB", tags)) {
+            return LocalTransactionState.ROLLBACK_MESSAGE;
+        } else {
+            return LocalTransactionState.UNKNOW;
+        }
+    }
+
+    //回查本地事务
+    @Override
+    public LocalTransactionState checkLocalTransaction(MessageExt messageExt) {
+        String tags = messageExt.getTags();
+        if (StringUtils.contains("TagC", tags)) {
+            return LocalTransactionState.COMMIT_MESSAGE;
+        }
+        if (StringUtils.contains("TagD", tags)) {
+            return LocalTransactionState.ROLLBACK_MESSAGE;
+        } else {
+            return LocalTransactionState.UNKNOW;
+        }
+    }
+}
+```
 

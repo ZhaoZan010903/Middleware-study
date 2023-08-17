@@ -17,7 +17,7 @@ public class Consumer {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("SimpleConsumer");
         consumer.setNamesrvAddr("127.0.0.1:9876");
         // *表示不过滤 所有消息都消费
-        consumer.subscribe("Simple", "*");
+        consumer.subscribe("Transaction", "*");
         //并发消费
         consumer.setMessageListener(new MessageListenerConcurrently() {
             @Override
