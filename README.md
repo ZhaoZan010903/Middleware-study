@@ -22,4 +22,4 @@
 2. RocketMQ实战
 3. RocketMQ消息
 4. RocketMQ常见问题(待完善)
-5. RocketMQ整合(存在问题;)
+5. RocketMQ整合(存在问题)
