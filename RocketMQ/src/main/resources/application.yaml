@@ -7,5 +7,7 @@ spring:
 
 rocketmq:
   name-server: 127.0.0.1:9876
+  # 生产者
   producer:
     group: my-boot-producer-group
+  # 消费者
