@@ -1,5 +1,6 @@
 package redis.redisTransaction;
 
+import cn.note.RedisNote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,11 +9,10 @@ import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-public class RedisTransactionTest {
+@SpringBootTest(classes = RedisNote.class)
+public class RedisNoteTransactionTest {
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -26,7 +26,7 @@ public class RedisTransactionTest {
 
     // execute
     @Test
-    public void testExecute(){
+    public void testExecute() {
         // 一旦出现异常 中断主线程, 因为它是同步的 解决方法:加上try-catch
         redisTemplate.execute(new SessionCallback() {
             @Override
@@ -37,7 +37,7 @@ public class RedisTransactionTest {
                 operations.multi(); // 开启事务
 
                 // 无需在这里try 回滚事物 ,出现异常底层会自动帮你回滚
-                operations.opsForValue().set("execute","test");
+                operations.opsForValue().set("execute", "test");
                 // 数据隔离性,事物没有提交是查不到的
                 System.out.println(operations.opsForValue().get("execute"));
 
@@ -53,16 +53,16 @@ public class RedisTransactionTest {
 
 
     @Test
-    public void testWatchExecute(){
-        redisTemplate.opsForValue().set("execute","test1");
+    public void testWatchExecute() {
+        redisTemplate.opsForValue().set("execute", "test1");
     }
 
 
     @Test
     @Transactional
     @Commit
-    public void testTransactional(){
-        tranRedisTemplate.opsForValue().set("tran","test11");
+    public void testTransactional() {
+        tranRedisTemplate.opsForValue().set("tran", "test11");
         System.out.println(tranRedisTemplate.opsForValue().get("tran"));
     }
 

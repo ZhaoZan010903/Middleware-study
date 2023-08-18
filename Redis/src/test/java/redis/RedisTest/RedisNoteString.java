@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
-public class RedisString {
+public class RedisNoteString {
     @Autowired
     private RedisTemplate redisTemplate;
 

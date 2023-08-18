@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @SpringBootTest
-public class RedisList {
+public class RedisNoteList {
 
     @Autowired
     RedisTemplate redisTemplate;

@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 
 @SpringBootTest
-public class RedisSet {
+public class RedisNoteSet {
 
     @Autowired
     private RedisTemplate redisTemplate;

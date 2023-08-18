@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @SpringBootTest
-public class RedisHash {
+public class RedisNoteHash {
     @Autowired
     private RedisTemplate redisTemplate;
 

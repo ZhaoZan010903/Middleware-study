@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 @SpringBootTest
-public class RedisZset {
+public class RedisNoteZset {
     @Autowired
     private RedisTemplate redisTemplate;
 
