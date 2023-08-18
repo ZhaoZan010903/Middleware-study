@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>java.util.Map</OriginalElement>
+  <nodes>
+    <node x="177.0" y="138.0">java.util.Hashtable</node>
+    <node x="382.0" y="138.0">java.util.TreeMap</node>
+    <node x="-10.0" y="138.0">java.util.HashMap</node>
+    <node x="106.0" y="57.0">java.util.Map</node>
+    <node x="-84.0" y="219.0">java.util.LinkedHashMap</node>
+    <node x="199.5" y="219.0">java.util.Properties</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="java.util.TreeMap" target="java.util.Map" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="465.5" y="112.0" />
+      <point x="171.5" y="112.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="java.util.Properties" target="java.util.Hashtable" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="java.util.Hashtable" target="java.util.Map" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="269.5" y="112.0" />
+      <point x="171.5" y="112.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="java.util.LinkedHashMap" target="java.util.HashMap" relationship="GENERALIZATION">
+      <point x="47.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="java.util.LinkedHashMap" target="java.util.Map" relationship="REALIZATION">
+      <point x="-54.0" y="-14.5" />
+      <point x="-27.5" y="112.0" />
+      <point x="171.5" y="112.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="java.util.HashMap" target="java.util.Map" relationship="REALIZATION">
+      <point x="0.0" y="-14.5" />
+      <point x="73.5" y="112.0" />
+      <point x="171.5" y="112.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="分层" zoom="1.5" showDependencies="false" x="-19.5" y="29.166666666666686" />
+  <SelectedNodes>
+    <node>java.util.HashMap</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
