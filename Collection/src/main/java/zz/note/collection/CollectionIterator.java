@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * 使用Iterator迭代器
  * @author ASUS
  */
 public class CollectionIterator {
