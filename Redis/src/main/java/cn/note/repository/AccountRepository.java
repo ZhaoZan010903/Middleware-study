@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * PagingAndSortingRepository 基本CRUD提供分页排序
  *
  * 实现机制: JDK动态代理 , 调用对应jedis命令
+ * @author ASUS
  */
 
 public interface AccountRepository extends CrudRepository<Account,Integer>, PagingAndSortingRepository<Account,Integer> {

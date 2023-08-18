@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.Serializable;
 
+/**
+ * @author ASUS
+ */
 @Configuration
 @EnableTransactionManagement    //开启事务
 @ComponentScan("cn.note")
