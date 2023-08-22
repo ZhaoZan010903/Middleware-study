@@ -114,3 +114,65 @@ public class ListExercise {
 
 }
 ```
+
+## ArrayList
+
+### 1.ArrayList注意事项
+
+* permits all elements,including null,ArrayList可以加入null,并且多个
+* ArrayList 是由数组来实现数据存储的
+* ArrayList 基本等同于Vector,除了ArrayList是线程不安全(执行效率高),在多线程情况下,不建议使用ArrayList
+
+### 2.ArrayList底层结构和源码分析
+
+1. ArrayList中维护了一个Object类型的数组elementData
+2. 当创建ArrayList对象时,如果使用的是无参构造器,则初始elementData容量为0,第1次添加,则扩容elementData为10,如需要再次扩容,则扩容elementData为1.5倍
+3. 如果使用的是指定大小的构造器,则初始elementData容量为指定大小,如果需要扩容,则扩容elementData为1.5倍
+
+## Vector
+
+### 1.Vector基本介绍
+
+1. Vector类的定义说明
+
+```java
+public class Vector<E>
+        extends AbstractList<E>
+        implements List<E>, RandomAccess, Cloneable, java.io.Serializable
+```
+
+2. Vector底层也是一个对象数组,protected Object[] elementData;
+3. Vector是线程同步的,即线程安全,Vector类的操作方法带有*synchronized*
+4. 在开发中,需要线程同步安全时,考虑使用Vector
+5. 如果是无参,默认10,满后,就按2倍扩容.如果指定大小,则每次直接按2倍扩
+
+## LinkedList
+
+### 1.LinkedList基础
+
+1. LinkedList底层实现了双向链表和双端队列特点
+2. 可以添加任意元素(可重复元素),包括null
+3. 线程不安全,没有实现同步
+
+### 2.LinkedList底层结构
+
+1. LinkedList底层维护了一个双向链表
+2. LinkedList中维护了两个属性first和last分别指向首节点和尾节点
+3. 每个节点(Node对象),里面又维护了prev、next、item三个属性，其中通过prev指向前一个,通过next指向后一个节点.最终实现双向链表
+4. 所以LinkedList的元素的添加和删除,不是通过数组完成的,相对来说效率较高
+   ![img.png](images/img.png)
+
+
+## ArrayList和LinkedList比较
+* ArrayList和LinkedList的比较
+
+|            | 底层结构 |   增删效率    | 改查的效率 |
+|:----------:|:----:|:---------:|:-----:|
+| ArrayList  | 可变数组 |  较低,数组扩容  |  较高   |
+| LinkedList | 双向链表 | 较高,通过链表追加 |  较低   |
+
+**如何选择ArrayList和LinkedList:**
+1. 如果改查的操作多,选择ArrayList
+2. 如果增删的操作多,选择LinkedList
+3. 一般来说,在程序中,80%-90%都是查询,因此大部分情况下会选择ArrayList
+4. 在一个项目中,根据业务灵活选择,也可能这样,一个模块使用的是ArrayList,另一个模块使用LinkedList
