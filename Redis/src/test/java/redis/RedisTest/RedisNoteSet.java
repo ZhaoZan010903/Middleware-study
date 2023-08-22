@@ -1,5 +1,6 @@
 package redis.RedisTest;
 
+import cn.note.RedisNote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,7 +8,7 @@ import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 
-@SpringBootTest
+@SpringBootTest(classes = RedisNote.class)
 public class RedisNoteSet {
 
     @Autowired
