@@ -10,8 +10,8 @@ import java.util.Vector;
  */
 public class ListFor {
     public static void main(String[] args) {
-//        List list = new Vector();
-//        List list = new Vector();
+//        List list = new VectorDemo();
+//        List list = new VectorDemo();
         List list = new ArrayList();
         list.add("jack");
         list.add("tom");

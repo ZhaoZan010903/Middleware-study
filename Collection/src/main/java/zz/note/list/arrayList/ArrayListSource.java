@@ -1,4 +1,4 @@
-package zz.note.arrayList;
+package zz.note.list.arrayList;
 
 import java.util.ArrayList;
 import java.util.Vector;
