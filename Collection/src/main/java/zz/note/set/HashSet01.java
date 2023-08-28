@@ -29,15 +29,15 @@ public class HashSet01 {
 
         // new String
         // 看源码,做分析 ;
-        set.add(new String("jack")); // Ok
-        set.add(new String("jack")); //加入不了
+        set.add("jack"); // Ok
+        set.add("jack"); //加入不了
         System.out.println(set); //[Dog{name='tom'}, Dog{name='tom'}, lucy, jack]
 
     }
 }
 
 class Dog {
-    private String name;
+    private final String name;
 
     public Dog(String name) {
         this.name = name;

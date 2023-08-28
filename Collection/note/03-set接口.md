@@ -127,3 +127,11 @@ class Node {  // 结点,存储数据,可以指向下一个结点,从而星城链
 
 1. HashSet底层是HashMap
 2. 添加一个元素时,先得到hash值 
+3. 找到存储数据表table,看这个索引位置是否已经存放的有元素
+4. 如果没有,直接加入
+5. 如果有,调用equals比较,如果相同,就放弃添加,如果不想同,则添加到最后
+6. 在Java8中,如果一条链表的元素个数超过 TREEIFY_THRESHOLD(默认是8),并且table的大小 >= MIN_TREEIFY_CAPACITY(默认64),就会进行树化(红黑树)
+
+
+#### 2.1 HashSet底层机制说明
+分析HashSet的添加元素底层是如何实现(hash()+equals())
