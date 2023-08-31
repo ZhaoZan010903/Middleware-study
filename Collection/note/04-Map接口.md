@@ -11,3 +11,33 @@
 7. key和value之间存在单向一对一关系,即通过指定的key总能找到对应的value
 8. Map存放数据的key-value示意图,一对k-v是存放在一个Node中的,有因为Node实现了Entry接口,有些书上也说 一对k-v就是一个Entry
 ![img_4.png](images/img_4.png)
+
+
+### 1.Map接口的常用方法
+```java
+public class MapMethod {
+    public static void main(String[] args) {
+        // 演示map接口常用方法
+        Map map = new HashMap();
+
+//         put:存入
+        map.put("你好","你好");
+        map.put("你好1","你好");
+        map.put("Java","↓");
+//        remove: 根据键删除映射关系
+        map.remove("你好1");
+//        get: 根据键获取值
+        map.get("你好");
+//        size: 获取有多少个键值对
+        map.size();
+//        isEmpty: 判断个数是否为0
+        map.isEmpty();//false
+//        clear: 清除k-v
+        
+//        map.clear();
+        
+//        containsKey: 查找键是否存在
+        System.out.println(map.containsKey("Java")); //T
+    }
+}
+```
