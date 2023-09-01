@@ -22,6 +22,7 @@
         <module>Redis</module>
         <module>RocketMQ</module>
         <module>Collection</module>
+        <module>Thread</module>
     </modules>
     <properties>
         <java.version>17</java.version>

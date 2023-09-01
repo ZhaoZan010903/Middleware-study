@@ -61,9 +61,7 @@ public class MapFor {
             Object next =  iterator2.next();
             System.out.println(next.getClass()); //HashMap$Node -实现-> Map.Entry (getKey,getValue)
             System.out.println(next);
-
         }
-
 
     }
 }
