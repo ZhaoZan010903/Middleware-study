@@ -10,6 +10,7 @@
         <module name="Redis" />
         <module name="Collection" />
         <module name="RocketMQ" />
+        <module name="Thread" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +26,7 @@
       <module name="Redis-Demo" options="-parameters" />
       <module name="Redis-Study" options="-parameters" />
       <module name="RocketMQ" options="-parameters" />
+      <module name="Thread" options="-parameters" />
     </option>
   </component>
 </project>
