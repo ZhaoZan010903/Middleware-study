@@ -1,7 +1,9 @@
 package zz.note.Runnable;
 
+import java.util.Arrays;
+
 public class ThreadDemo {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchFieldException {
         /**
          * 多线程的第二种启动方式
          *  1.自己定义一个实现Runnable接口
@@ -23,8 +25,7 @@ public class ThreadDemo {
         t2.setName("t2");
 
         //开启多线程
-        t1.start();
-        t2.start();
-
+//        t1.start();
+//        t2.start();
     }
 }

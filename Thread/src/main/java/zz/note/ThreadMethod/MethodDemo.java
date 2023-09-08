@@ -17,19 +17,22 @@ public class MethodDemo {
     static void sleep(long time)           让线程休眠指定的时间,单位为毫秒
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
-//        // 1.创建线程的对象
-//        MyThread t1 = new MyThread();
-//        MyThread t2 = new MyThread();
-//
-//        // 2.开启线程
-//        t1.start();
-//        t2.start();
-//
-        // 那条线程直行道这个方法,此时获取的就是哪条线程的对象
+        // 1.创建线程的对象
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+
+        // 2.开启线程
+        t1.start();
+        t2.start();
+
+//         那条线程直行道这个方法,此时获取的就是哪条线程的对象
         Thread t = Thread.currentThread();
         String name = t.getName();
-        System.out.println(name);
+        Thread.sleep(2000);
+
+
+        System.out.println(t);
     }
 }

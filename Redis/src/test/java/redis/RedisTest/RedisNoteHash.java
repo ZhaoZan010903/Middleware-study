@@ -4,6 +4,7 @@ import cn.note.RedisNote;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -22,7 +23,6 @@ public class RedisNoteHash {
         BoundHashOperations car = redisTemplate.boundHashOps("car");
         car.put("p_id", 1);
         car.put("p_total", 10);
-
     }
 
     // 获取map 所有
